@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if session.logged_in %}
+	<h2>Sample forms</h2>
+	<form action="{{ url_for( 'map' ) }}" method=post>
+		<dl>
+			<dt>Cluster:
+			<dd><input type="text" name="cluster">
+			<dd><input type="submit" value="Get">
+		</dl>
+	</form>
+{% endif %}
+
+<ul class=datum>
+	{% if entry == {} %}
+	<li><em>No data was passed. Yet.</em></li>
+	{% else %}
+	<li><h2>Latitude: {{ lat }}</h2></li>
+	<li><h2>Longitude: {{ lon }}</h2></li>
+	{% endif %}
+</ul>
+{% endblock %}
