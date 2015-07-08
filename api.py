@@ -4,6 +4,7 @@ Created on Tue Jul  7 09:54:17 2015
 
 @author: jerelyn
 """
+#importing modules
 from flask import Flask, jsonify, render_template, flash, request, \
     session, redirect, url_for, g 
 from flask_restful import Api, Resource, abort
@@ -23,20 +24,24 @@ app.config.update(dict(
 ))
 app.config.from_envvar('EVENT_SETTINGS', silent=True)
 
-#extending application to api
+#Extending flask application to api
 api = Api(app)
 
-
+#Opening local data
 with open('data/90_ncr_dummy_hour.json') as data_file:
 	data = json.load(data_file)
 
-
+#If the cls input data exceeds the cls count, abort with 404 error
 def abort_index_exceed(cls_id):
     ncls = max(data, key=itemgetter('cls'))['cls']
     if cls_id > ncls:
         abort(404, message="cls input exceeded max cls_id")
 
-#Api classes returning json
+"""
+API classes
+Returns json formatted data basing from url.
+These resources are then used by the frontend through ajax
+"""
 class Data(Resource):
     def get(self):
         return data
@@ -48,7 +53,11 @@ class Entry(Resource):
         return data[cls_id]
 api.add_resource(Entry, '/api/data/<int:cls_id>')
 
-#Flask-frontend navigation
+
+"""
+The lines below show the flask-based client-server communication.
+This is used for testing and education only.
+"""
 @app.route('/') #homepage
 def home():
     return render_template('layout.html')
@@ -91,11 +100,9 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('home'))
 
+"""
+Debugging for testing purposes only.
+"""
 if __name__ == '__main__':
     app.run(debug=True)
     
-    
-
-
-
-

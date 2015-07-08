@@ -1,4 +1,9 @@
 {% extends "layout.html" %}
+{% block head %}
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="{{ url_for( 'static', filename= 'main.js' ) }}"></script>
+{% endblock head %}
+
 {% block body %}
 {% if session.logged_in %}
 	<h2>Sample forms</h2>
@@ -11,6 +16,10 @@
 	</form>
 {% endif %}
 
+<ul id="clusters">
+	<p>Clusters to choose from</p>
+</ul>
+
 <ul class=datum>
 	{% if entry == {} %}
 	<li><em>No data was passed. Yet.</em></li>
@@ -19,4 +28,5 @@
 	<li><h2>Longitude: {{ lon }}</h2></li>
 	{% endif %}
 </ul>
+
 {% endblock %}
